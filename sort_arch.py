@@ -218,15 +218,6 @@ class Inspector(Process):
 
     def run(self):
         self.prepare()
-
-        # works = [RarExtract(archiv, self.masks, self.strings, self.start_path, stats=self.stat, sts=self.st)
-        #          for archiv in listdir(self.start_path) if archiv.endswith('.rar')]
-        # works = [ZipExtract(archiv, self.masks, self.strings, self.start_path, stats=self.stat, sts=self.st)
-        #          for archiv in listdir(self.start_path) if archiv.endswith('.zip')]
-        # z7_list = [Extract7z(archiv, self.masks, self.strings, self.start_path, stats=self.stat, sts=self.st)
-        #            for archiv in listdir(self.start_path) if archiv.endswith('.7z')]
-        # if z7_list:
-        #     works.extend(z7_list)
         works = [Extract7z(archiv, self.masks, self.strings, self.start_path, stats=self.stat, sts=self.st)
                  for archiv in listdir(self.start_path) if archiv.endswith('.7z')]
         works.extend([ZipExtract(archiv, self.masks, self.strings, self.start_path, stats=self.stat, sts=self.st)
@@ -238,19 +229,7 @@ class Inspector(Process):
             work.start()
         for work in works:
             work.join()
-        # for arhiv in listdir(self.start_path):
-        #     if arhiv.endswith('.zip'):
-        #         second = ZipExtract(arhiv, self.masks, self.strings, self.start_path, stats=self.stat, sts=self.st)
-        #         second.start()
-        #         second.join()
-        # elif arhiv.endswith('.7z'):
-        #     third = Extract7z(arhiv, self.masks, self.strings, self.start_path, sts=self.st)
-        #     third.start()
-        #     third.join()
-        # elif arhiv.endswith('.rar'):
-        #     first = RarExtract(arhiv, self.masks, self.strings, self.start_path, sts=self.st)
-        #     first.run()
-
+     
     def prepare(self):
         with open(self.mask_file, mode='r', encoding='utf8') as mask:
             for line in mask:
